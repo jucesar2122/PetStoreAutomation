@@ -1,6 +1,6 @@
 # 🐾 PetStoreAutomation
 
-Framework de automatización de pruebas End-to-End (E2E) para la aplicación **JPetStore**, desarrollado con Java, Selenium WebDriver y Cucumber (Behavior-Driven Development).
+Framework de pruebas End-to-End (E2E) para la aplicación **JPetStore**, desarrollado con Java, Selenium WebDriver y Cucumber (Behavior-Driven Development).
 
 ## 🛠️ Tecnologías utilizadas
 * Java 21
@@ -10,7 +10,7 @@ Framework de automatización de pruebas End-to-End (E2E) para la aplicación **J
 * Gradle (Gestor de dependencias)
 
 ## 🚀 Cómo ejecutar las pruebas
-Puedes ejecutar los escenarios de prueba directamente desde IntelliJ IDEA clonando el repositorio y ejecutando la clase de pruebas o mediante la terminal con Gradle:
+Puedes ejecutar los escenarios de prueba directamente desde IntelliJ IDEA clonando el repositorio o mediante la terminal usando Gradle:
 
 ```bash
 ./gradlew test
