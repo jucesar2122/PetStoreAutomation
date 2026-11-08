@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Selenium WebDriver
+    implementation 'org.seleniumhq.selenium:selenium-java:4.18.1'
+
+    // Cucumber Java y su motor para JUnit Platform
+    implementation 'io.cucumber:cucumber-java:7.16.1'
+    implementation 'io.cucumber:cucumber-junit-platform-engine:7.16.1'
+
+    // JUnit 5 y Launcher
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.10.2'
+}
+
+test {
+    useJUnitPlatform()
+}

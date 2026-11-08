@@ -1,0 +1,7 @@
+package driver;
+
+import io.cucumber.junit.platform.engine.Cucumber;
+
+@Cucumber
+public class RunTest {
+}
