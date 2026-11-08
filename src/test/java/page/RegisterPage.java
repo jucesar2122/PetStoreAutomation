@@ -7,39 +7,48 @@ import java.util.Map;
 
 public class RegisterPage extends BasePage {
 
-    // Localizadores del formulario de registro de JPetStore
-    private final By usernameField = By.name("username");
-    private final By passwordField = By.name("password");
-    private final By repeatedPasswordField = By.name("repeatedPassword");
-    private final By firstNameField = By.name("account.firstName");
-    private final By lastNameField = By.name("account.lastName");
-    private final By emailField = By.name("account.email");
-    private final By phoneField = By.name("account.phone");
-    private final By address1Field = By.name("account.address1");
-    private final By cityField = By.name("account.city");
-    private final By stateField = By.name("account.state");
-    private final By zipField = By.name("account.zip");
-    private final By countryField = By.name("account.country");
-    private final By saveAccountButton = By.name("newAccount");
+    // Localizadores de User Information
+    private final By usernameField = By.xpath("//input[@name='username'] | //td[contains(text(),'User ID')]/following-sibling::td/input");
+    private final By passwordField = By.xpath("//input[@name='password'] | //td[contains(text(),'New password')]/following-sibling::td/input");
+    private final By repeatedPasswordField = By.xpath("//input[@name='repeatedPassword'] | //td[contains(text(),'Repeat password')]/following-sibling::td/input");
+
+    // Localizadores de Account Information (soportan tanto 'firstName' como 'account.firstName' y búsqueda por etiqueta)
+    private final By firstNameField = By.xpath("//input[@name='firstName' or @name='account.firstName'] | //td[contains(text(),'First name')]/following-sibling::td/input");
+    private final By lastNameField = By.xpath("//input[@name='lastName' or @name='account.lastName'] | //td[contains(text(),'Last name')]/following-sibling::td/input");
+    private final By emailField = By.xpath("//input[@name='email' or @name='account.email'] | //td[contains(text(),'Email')]/following-sibling::td/input");
+    private final By phoneField = By.xpath("//input[@name='phone' or @name='account.phone'] | //td[contains(text(),'Phone')]/following-sibling::td/input");
+    private final By address1Field = By.xpath("//input[@name='address1' or @name='account.address1'] | //td[contains(text(),'Address 1')]/following-sibling::td/input");
+    private final By cityField = By.xpath("//input[@name='city' or @name='account.city'] | //td[contains(text(),'City')]/following-sibling::td/input");
+    private final By stateField = By.xpath("//input[@name='state' or @name='account.state'] | //td[contains(text(),'State')]/following-sibling::td/input");
+    private final By zipField = By.xpath("//input[@name='zip' or @name='account.zip'] | //td[contains(text(),'Zip')]/following-sibling::td/input");
+    private final By countryField = By.xpath("//input[@name='country' or @name='account.country'] | //td[contains(text(),'Country')]/following-sibling::td/input");
+
+    private final By saveAccountButton = By.xpath("//input[@value='Save Account Information' or @name='newAccount']");
 
     public RegisterPage(WebDriver driver) {
         super(driver);
     }
 
-    public void fillForm(Map<String, String> data, String userId, String password, String email) {
-        type(usernameField, userId);
-        type(passwordField, password);
-        type(repeatedPasswordField, data.get("Repeat password"));
+    private void safeType(By locator, String text) {
+        if (text != null) {
+            type(locator, text);
+        }
+    }
 
-        type(firstNameField, data.get("First name"));
-        type(lastNameField, data.get("Last name"));
-        type(emailField, email);
-        type(phoneField, data.get("Phone"));
-        type(address1Field, data.get("Address 1"));
-        type(cityField, data.get("City"));
-        type(stateField, data.get("State"));
-        type(zipField, data.get("Zip"));
-        type(countryField, data.get("Country"));
+    public void fillForm(Map<String, String> data, String userId, String password, String email) {
+        safeType(usernameField, userId);
+        safeType(passwordField, password);
+        safeType(repeatedPasswordField, data.get("Repeat password"));
+
+        safeType(firstNameField, data.get("First name"));
+        safeType(lastNameField, data.get("Last name"));
+        safeType(emailField, email);
+        safeType(phoneField, data.get("Phone"));
+        safeType(address1Field, data.get("Address 1"));
+        safeType(cityField, data.get("City"));
+        safeType(stateField, data.get("State"));
+        safeType(zipField, data.get("Zip"));
+        safeType(countryField, data.get("Country"));
     }
 
     public void clickSaveAccount() {

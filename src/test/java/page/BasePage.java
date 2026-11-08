@@ -1,6 +1,7 @@
 package page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,6 +34,10 @@ public class BasePage {
     public void type(By locator, String text) {
         WebElement element = find(locator);
         element.clear();
+        String currentVal = element.getAttribute("value");
+        if (currentVal != null && !currentVal.isEmpty()) {
+            element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        }
         element.sendKeys(text);
     }
 
