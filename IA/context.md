@@ -29,25 +29,36 @@ PetStoreAutomation/
 │       │   ├── page/
 │       │   │   ├── BasePage.java                 # Clase base con acciones comunes y esperas explícitas
 │       │   │   ├── HomePage.java                 # Acciones de la página de inicio y catálogo
-│       │   │   ├── RegisterPage.java             # Localizadores y llenado del formulario de registro
+│       │   │   ├── RegisterPage.java             # Localizadores, selects, checkboxes y formulario de registro
 │       │   │   └── LoginPage.java                # Localizadores y acciones de inicio de sesión
 │       │   ├── runner/
 │       │   │   └── TestRunner.java               # Suite JUnit Platform para ejecución centralizada
 │       │   └── steps/
-│       │       └── CreateUserStep.java           # Mapeo y lógica de pasos Gherkin (Step Definitions)
+│       │       ├── CreateUserStep.java           # Step Definitions del Happy Path original con DataTable
+│       │       └── CreateUserFullStep.java       # Step Definitions de la suite completa (Positivos, Negativos, Límites, UX)
 │       └── resources/
 │           ├── cucumber.properties               # Configuración de ejecución y reportes HTML de Cucumber
 │           └── Feature/
 │               └── CreateUser/
-│                   └── CreateUser.feature        # Escenarios de prueba BDD en sintaxis Gherkin
+│                   ├── CreateUser.feature        # Escenario Happy Path inicial con DataTable
+│                   └── CreateUserFull.feature    # Suite completa de pruebas (TC-01 a TC-12)
 ```
 
 ### Descripción de Módulos:
-- **Capa de Especificación (`resources/Feature`)**: Archivos `.feature` que describen el comportamiento esperado del sistema en lenguaje de negocio (Gherkin en español).
-- **Capa de Pasos (`steps`)**: Intermediario que traduce las sentencias Gherkin en llamadas a métodos de negocio implementados en las páginas. Maneja la lógica de validaciones y aserciones.
-- **Capa de Páginas (`page`)**: Implementación del patrón Page Object Model (POM). Encapsula los localizadores del DOM y las interacciones con los elementos web (evitando fugas de `By` o `findElement` en los steps).
-- **Capa de Control de Driver (`driver` y `hook`)**: Controla la inicialización de `ChromeDriver`, configuración de opciones seguras (desactivación de prompts de autoguardado de contraseñas y autofill), y cierre de sesión seguro mediante `ThreadLocal`.
-- **Capa de Ejecución (`runner`)**: Permite la ejecución de las pruebas mediante `JUnit Platform Suite`, integrando reportes enriquecidos para CI/CD.
+- **Capa de Especificación (`resources/Feature`)**:
+  - `CreateUser.feature`: Escenario Happy Path basado en `DataTable`.
+  - `CreateUserFull.feature`: Suite extendida con 10 escenarios (positivos, unicidad, contraseñas, omisión de campos, valores límite, UX y seguridad).
+- **Capa de Pasos (`steps`)**:
+  - `CreateUserStep.java`: Maneja los pasos con tabla del Happy Path.
+  - `CreateUserFullStep.java`: Maneja las aserciones y acciones de la suite completa sin colisiones de pasos.
+- **Capa de Páginas (`page`)**:
+  - `BasePage.java`: Esperas explícitas (`WebDriverWait`) y tipeo seguro con limpieza de buffers.
+  - `RegisterPage.java`: Encapsula todos los campos de información de usuario, cuenta, dirección complementaria (`Address 2`), listas desplegables de idioma/categoría y checkboxes.
+  - `LoginPage.java`: Encapsula la autenticación.
+- **Capa de Control de Driver (`driver` y `hook`)**:
+  - `DriverManager.java`: Instancia única por hilo con `ThreadLocal`, supresión de advertencias CDP y desactivación de ventanas modales nativas de Chrome (guardado de contraseñas y autocompletado).
+- **Capa de Ejecución (`runner`)**:
+  - `TestRunner.java`: Configurado con JUnit Platform Suite para ejecutar todos los features o filtrar por tags (`@smoke`, `@positive`, `@negative`, `@boundary`).
 
 ---
 
@@ -66,37 +77,31 @@ PetStoreAutomation/
 
 ## 4. Contratos (si existen)
 
-- **Contratos Gherkin (Step Contracts):** Definidos en los pasos del archivo `CreateUser.feature`. Cada paso establece un contrato estricto de precondición (`Given`), acción (`When`, `And`) o aserción esperada (`Then`).
-- **Contrato de Datos (Data Table Contract):** El paso `When completa el formulario con los siguientes datos:` implementa un contrato bidimensional clave-valor con 12 campos obligatorios:
-  - `User ID`, `New password`, `Repeat password`
-  - `First name`, `Last name`, `Email`, `Phone`
-  - `Address 1`, `City`, `State`, `Zip`, `Country`
+- **Contratos BDD Gherkin:** Especifican el comportamiento esperado para:
+  - Registro exitoso con valores por defecto y personalizados.
+  - Manejo de unicidad de usuario y correo.
+  - Validación de política de contraseñas y coincidencia.
+  - Validación de campos obligatorios faltantes.
+  - Fronteras en campos de teléfono y longitud de User ID.
+  - Seguridad en sesión post-registro.
 
 ---
 
 ## 5. Módulos de datos
 
-- **Entrada de Datos:** Se suministran mediante `io.cucumber.datatable.DataTable`, transformados en tiempo de ejecución a estructuras `Map<String, String>`.
-- **Generación de Datos Dinámicos:** Con el fin de evitar colisiones por llaves primarias duplicadas en la base de datos de JPetStore, se implementó generación dinámica basada en timestamps tanto para el identificador de usuario (`"U" + timestamp`) como para el correo electrónico (`qa_user_{timestamp}@testpetstore.com`).
-- **Persistencia de Sesión de Prueba:** Las credenciales generadas se almacenan temporalmente a nivel de contexto de la prueba para su posterior verificación durante el flujo de inicio de sesión (`Sign In`).
+- **Datos de Prueba:** Se generan identificadores únicos de usuario (`"U" + timestamp`) y emails dinámicos para evitar fallos por unicidad en los flujos positivos.
+- **Datos de Validación Negativa:** Valores de frontera configurados en tablas de ejemplos (`Esquema del escenario`) para evaluar validaciones de formato y longitud.
 
 ---
 
 ## 6. Estándares y convenciones del código
 
-- **Convención de Nomenclatura:**
-  - Clases en `UpperCamelCase` (`RegisterPage`, `CreateUserStep`, `TestRunner`).
-  - Métodos y variables en `lowerCamelCase` (`registeredUserId`, `fillForm`, `accederURL`).
-  - Constantes y selectores finales en `camelCase` o `UPPER_SNAKE_CASE`.
-- **Sintaxis BDD:** Escenarios redactados en lenguaje Gherkin en español orientado al usuario final.
-- **Localización Robusta de Elementos:**
-  - Uso de estrategias híbridas en XPath (`By.xpath`) combinando atributos directos (`name`, `value`) y navegación relativa contextual (`following-sibling::td/input`) para garantizar resiliencia ante cambios menores de marcado HTML.
-- **Sincronización:** Uso estricto de esperas explícitas (`WebDriverWait`, `ExpectedConditions`) para transiciones de URL, visibilidad de elementos y clickeabilidad, eliminando tiempos muertos de espera fija (`Thread.sleep`).
+- **Separación de responsabilidades:** Los Step Definitions no realizan llamadas a `driver.findElement` directamente; delegan en los Page Objects.
+- **Esperas explícitas:** Eliminación de esperas estáticas (`Thread.sleep`), utilizando `WebDriverWait` con `ExpectedConditions`.
+- **Estrategias de localización resilientes:** Uso de locators híbridos en XPath con operadores `or` para compatibilidad con variaciones en el DOM.
 
 ---
 
 ## 7. Riesgos, supuestos y limitaciones
 
-- **Dependencia de Infraestructura Externa:** La aplicación bajo prueba se ejecuta en un entorno público (`https://petstore.octoperf.com`). Caídas del servicio o latencia de red elevada pueden impactar la estabilidad de las ejecuciones.
-- **Monocromático de Navegador:** La suite está configurada específicamente para Google Chrome. Ejecuciones en Firefox o Edge requerirán parametrizar el `DriverManager`.
-- **Autocompletado de Navegador:** Se gestionó la desactivación de cuadros de diálogo del navegador mediante flags de Chromium (`credentials_enable_service: false`, `profile.password_manager_enabled: false`) para evitar interrupciones de foco en ventanas modales nativas.
+- **Comportamiento del Backend de JPetStore:** Al ser una aplicación legacy de demostración, el backend no implementa todas las reglas de negocio modernas (ej. complejidad de contraseñas o unicidad de correo). Las aserciones en los casos negativos están diseñadas para registrar y evidenciar estos comportamientos como defectos de software (bugs) en el contexto del taller.
