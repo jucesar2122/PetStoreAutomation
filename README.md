@@ -63,7 +63,7 @@ PetStoreAutomation/
 
 ### 1. Clonar el repositorio e instalar dependencias
 ```bash
-git clone https://github.com/tu-usuario/PetStoreAutomation.git
+git clone https://github.com/jucesar2122/PetStoreAutomation.git
 cd PetStoreAutomation
 npm install
 ```
@@ -99,5 +99,5 @@ npx playwright install
 
 ## 👤 Autor
 * **Julio Delamar** — QA Engineer  
-* Programa Acelerador de Carrera (AJSP) — TesteandoYa LLC  
+* Taller de TesteandoYa LLC  
 * Especialidad: Automatización E2E, Shift-Left Testing & Playwright
