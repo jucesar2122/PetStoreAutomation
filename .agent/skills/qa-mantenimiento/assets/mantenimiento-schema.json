@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MantenimientoResumen",
+  "type": "object",
+  "required": [
+    "proyecto",
+    "fecha",
+    "tipo_mantenimiento",
+    "metricas_mantenimiento",
+    "selectores_refactorizados",
+    "casos_podados",
+    "cobertura_rtm_preservada",
+    "ciclo_completado"
+  ],
+  "properties": {
+    "proyecto": {
+      "type": "string"
+    },
+    "fecha": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "tipo_mantenimiento": {
+      "type": "string"
+    },
+    "metricas_mantenimiento": {
+      "type": "object",
+      "required": [
+        "total_selectores_actualizados",
+        "total_casos_podados",
+        "porcentaje_ahorro_tiempo"
+      ],
+      "properties": {
+        "total_selectores_actualizados": {
+          "type": "integer"
+        },
+        "total_casos_podados": {
+          "type": "integer"
+        },
+        "porcentaje_ahorro_tiempo": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "selectores_refactorizados": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "componente",
+          "selector_anterior",
+          "selector_nuevo"
+        ],
+        "properties": {
+          "componente": {
+            "type": "string"
+          },
+          "selector_anterior": {
+            "type": "string"
+          },
+          "selector_nuevo": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "casos_podados": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id_caso",
+          "motivo"
+        ],
+        "properties": {
+          "id_caso": {
+            "type": "string",
+            "pattern": "^TC-\\d{3}$"
+          },
+          "motivo": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cobertura_rtm_preservada": {
+      "type": "boolean"
+    },
+    "ciclo_completado": {
+      "type": "boolean"
+    }
+  }
+}

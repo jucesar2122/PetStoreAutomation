@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ImplementacionResumen",
+  "type": "object",
+  "required": [
+    "proyecto",
+    "modulo",
+    "fecha",
+    "stack",
+    "casos_implementados",
+    "archivos_creados",
+    "metricas",
+    "listo_para_ejecucion"
+  ],
+  "properties": {
+    "proyecto": {
+      "type": "string"
+    },
+    "modulo": {
+      "type": "string"
+    },
+    "fecha": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "stack": {
+      "type": "string"
+    },
+    "casos_implementados": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id_caso",
+          "spec_file",
+          "cobertura_rtm"
+        ],
+        "properties": {
+          "id_caso": {
+            "type": "string",
+            "pattern": "^TC-\\d{3}$"
+          },
+          "spec_file": {
+            "type": "string"
+          },
+          "cobertura_rtm": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "archivos_creados": {
+      "type": "object",
+      "required": [
+        "pages_o_clients",
+        "specs",
+        "fixtures"
+      ],
+      "properties": {
+        "pages_o_clients": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "specs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fixtures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "metricas": {
+      "type": "object",
+      "required": [
+        "total_casos_disenados",
+        "total_casos_implementados",
+        "porcentaje_cobertura_rtm"
+      ],
+      "properties": {
+        "total_casos_disenados": {
+          "type": "integer"
+        },
+        "total_casos_implementados": {
+          "type": "integer"
+        },
+        "porcentaje_cobertura_rtm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "listo_para_ejecucion": {
+      "type": "boolean"
+    }
+  }
+}

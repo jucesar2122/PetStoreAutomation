@@ -1,0 +1,64 @@
+{
+  "framework": "SQAF",
+  "version": "1.0.0",
+  "suite_name": "Full QA Lifecycle Skills Suite",
+  "total_skills": 9,
+  "average_score": 97.79,
+  "certification": "TIER-1 GOLD STANDARD (GRADE A+)",
+  "skills": [
+    {
+      "stage": "01",
+      "name": "qa-analisis",
+      "score": 98.0,
+      "role": "Análisis Estático de Requisitos"
+    },
+    {
+      "stage": "02",
+      "name": "qa-planificacion",
+      "score": 98.2,
+      "role": "Plan Maestro y Estrategia de Pruebas"
+    },
+    {
+      "stage": "02.5",
+      "name": "qa-refinamiento",
+      "score": 97.0,
+      "role": "Refinamiento Ágil e Historias INVEST"
+    },
+    {
+      "stage": "03",
+      "name": "qa-diseno",
+      "score": 94.5,
+      "role": "Diseño de Casos, POM y Matriz RTM"
+    },
+    {
+      "stage": "04",
+      "name": "qa-implementacion",
+      "score": 98.4,
+      "role": "Codificación Agnóstica y Fixtures"
+    },
+    {
+      "stage": "05",
+      "name": "qa-ejecucion",
+      "score": 98.5,
+      "role": "Orquestación Técnica y Captura de Trazas"
+    },
+    {
+      "stage": "06",
+      "name": "qa-reporte",
+      "score": 98.6,
+      "role": "Reporte Ejecutivo y Dictamen Go/No-Go"
+    },
+    {
+      "stage": "07",
+      "name": "qa-retro",
+      "score": 98.4,
+      "role": "Retrospectiva, Causa Raíz y Mejora SMART"
+    },
+    {
+      "stage": "08",
+      "name": "qa-mantenimiento",
+      "score": 98.5,
+      "role": "Mantenimiento, Anti-Flakiness y Poda"
+    }
+  ]
+}

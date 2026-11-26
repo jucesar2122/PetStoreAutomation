@@ -1,0 +1,24 @@
+{
+  "name": "petstore-automation-playwright",
+  "version": "1.0.0",
+  "description": "PetStore Automation Suite migrada a Playwright TypeScript",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "automation",
+    "petstore"
+  ],
+  "author": "Julio Delamar",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}

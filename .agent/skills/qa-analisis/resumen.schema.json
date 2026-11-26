@@ -1,0 +1,228 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AnalisisResumen",
+  "type": "object",
+  "required": [
+    "modulo",
+    "documento_analizado",
+    "fecha",
+    "contexto_disponible",
+    "metricas",
+    "veredicto",
+    "gaps",
+    "ambiguedades",
+    "riesgos",
+    "preguntas_po"
+  ],
+  "properties": {
+    "modulo": {
+      "type": "string"
+    },
+    "documento_analizado": {
+      "type": "string"
+    },
+    "fecha": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "contexto_disponible": {
+      "type": "boolean"
+    },
+    "metricas": {
+      "type": "object",
+      "required": [
+        "total_gaps",
+        "total_ambiguedades",
+        "total_riesgos",
+        "total_preguntas"
+      ],
+      "properties": {
+        "total_gaps": {
+          "type": "integer"
+        },
+        "gaps_alta": {
+          "type": "integer"
+        },
+        "gaps_media": {
+          "type": "integer"
+        },
+        "gaps_baja": {
+          "type": "integer"
+        },
+        "total_ambiguedades": {
+          "type": "integer"
+        },
+        "total_riesgos": {
+          "type": "integer"
+        },
+        "riesgos_criticos": {
+          "type": "integer"
+        },
+        "total_preguntas": {
+          "type": "integer"
+        }
+      }
+    },
+    "veredicto": {
+      "type": "object",
+      "required": [
+        "dictamen",
+        "regla_precedencia",
+        "justificacion"
+      ],
+      "properties": {
+        "dictamen": {
+          "type": "string",
+          "enum": [
+            "BLOQUEADO POR GAPS CRÍTICOS",
+            "REQUIERE ACLARACIÓN DEL NEGOCIO",
+            "LISTO PARA REFINAMIENTO Y DISEÑO"
+          ]
+        },
+        "regla_precedencia": {
+          "type": "integer",
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        },
+        "justificacion": {
+          "type": "string"
+        }
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "seccion",
+          "descripcion",
+          "severidad",
+          "evidencia"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^GAP-\\d{2}$"
+          },
+          "seccion": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "severidad": {
+            "type": "string",
+            "enum": [
+              "Alta",
+              "Media",
+              "Baja"
+            ]
+          },
+          "evidencia": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ambiguedades": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "seccion",
+          "cita_textual",
+          "conflicto",
+          "propuesta_redaccion"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^AMB-\\d{2}$"
+          },
+          "seccion": {
+            "type": "string"
+          },
+          "cita_textual": {
+            "type": "string"
+          },
+          "conflicto": {
+            "type": "string"
+          },
+          "propuesta_redaccion": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "riesgos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "categoria",
+          "descripcion",
+          "nivel",
+          "mitigacion"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^RIE-\\d{2}$"
+          },
+          "categoria": {
+            "type": "string",
+            "enum": [
+              "Técnico",
+              "Negocio",
+              "Automatización"
+            ]
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "nivel": {
+            "type": "string",
+            "enum": [
+              "Crítico",
+              "Alto",
+              "Medio",
+              "Bajo"
+            ]
+          },
+          "mitigacion": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "preguntas_po": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "pregunta",
+          "impacto_pruebas"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^\\[P\\d{2}\\]$"
+          },
+          "pregunta": {
+            "type": "string"
+          },
+          "impacto_pruebas": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

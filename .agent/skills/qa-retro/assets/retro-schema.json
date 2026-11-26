@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RetrospectivaResumen",
+  "type": "object",
+  "required": [
+    "proyecto",
+    "ciclo",
+    "fecha",
+    "metricas_ciclo",
+    "causas_raiz",
+    "plan_accion_smart",
+    "deuda_tecnica_mantenimiento",
+    "listo_para_mantenimiento"
+  ],
+  "properties": {
+    "proyecto": {
+      "type": "string"
+    },
+    "ciclo": {
+      "type": "string"
+    },
+    "fecha": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "metricas_ciclo": {
+      "type": "object",
+      "required": [
+        "flakiness_rate",
+        "defectos_shift_left",
+        "defectos_ejecucion"
+      ],
+      "properties": {
+        "flakiness_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "defectos_shift_left": {
+          "type": "integer"
+        },
+        "defectos_ejecucion": {
+          "type": "integer"
+        }
+      }
+    },
+    "causas_raiz": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "incidencia",
+          "causa_raiz_final"
+        ],
+        "properties": {
+          "incidencia": {
+            "type": "string"
+          },
+          "causa_raiz_final": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "plan_accion_smart": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "accion",
+          "kpi_exito",
+          "responsable",
+          "plazo"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ACT-\\d{2}$"
+          },
+          "accion": {
+            "type": "string"
+          },
+          "kpi_exito": {
+            "type": "string"
+          },
+          "responsable": {
+            "type": "string"
+          },
+          "plazo": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "deuda_tecnica_mantenimiento": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "listo_para_mantenimiento": {
+      "type": "boolean"
+    }
+  }
+}

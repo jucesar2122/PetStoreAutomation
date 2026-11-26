@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReporteCalidadResumen",
+  "type": "object",
+  "required": [
+    "proyecto",
+    "version",
+    "fecha",
+    "dictamen_release",
+    "scorecard",
+    "metricas_ejecucion",
+    "defectos",
+    "listo_para_retro"
+  ],
+  "properties": {
+    "proyecto": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "fecha": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "dictamen_release": {
+      "type": "object",
+      "required": [
+        "veredicto",
+        "regla_precedencia",
+        "justificacion"
+      ],
+      "properties": {
+        "veredicto": {
+          "type": "string",
+          "enum": [
+            "APROBADO PARA RELEASE (GO)",
+            "BLOQUEADO (NO-GO)",
+            "APROBADO CON OBSERVACIONES"
+          ]
+        },
+        "regla_precedencia": {
+          "type": "integer",
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        },
+        "justificacion": {
+          "type": "string"
+        }
+      }
+    },
+    "scorecard": {
+      "type": "object",
+      "required": [
+        "pass_rate_cumple",
+        "defectos_criticos_cumple",
+        "flakiness_cumple"
+      ],
+      "properties": {
+        "pass_rate_cumple": {
+          "type": "boolean"
+        },
+        "defectos_criticos_cumple": {
+          "type": "boolean"
+        },
+        "flakiness_cumple": {
+          "type": "boolean"
+        }
+      }
+    },
+    "metricas_ejecucion": {
+      "type": "object",
+      "required": [
+        "total_ejecutadas",
+        "passed",
+        "failed",
+        "flaky",
+        "pass_rate"
+      ],
+      "properties": {
+        "total_ejecutadas": {
+          "type": "integer"
+        },
+        "passed": {
+          "type": "integer"
+        },
+        "failed": {
+          "type": "integer"
+        },
+        "flaky": {
+          "type": "integer"
+        },
+        "pass_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "defectos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "severidad",
+          "descripcion",
+          "modulo"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^DEF-\\d{2}$"
+          },
+          "severidad": {
+            "type": "string",
+            "enum": [
+              "Crítica",
+              "Alta",
+              "Media",
+              "Baja"
+            ]
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "modulo": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "listo_para_retro": {
+      "type": "boolean"
+    }
+  }
+}
