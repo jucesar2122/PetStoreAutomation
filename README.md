@@ -99,5 +99,5 @@ npx playwright install
 
 ## 👤 Autor
 * **Julio Delamar** — QA Engineer  
-* Programa Acelerador de Carrera (AJSP) — TripleTen  
+* Programa Acelerador de Carrera (AJSP) — TesteandoYa LLC  
 * Especialidad: Automatización E2E, Shift-Left Testing & Playwright
